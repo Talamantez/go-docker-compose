@@ -43,6 +43,10 @@ func quoteOfTheDayHandler(client *redis.Client) http.HandlerFunc {
 	}
 }
 
+func triggerQod(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("This should trigger the qod"))
+}
+
 func main() {
 	// Create Redis Client
 	client := redis.NewClient(&redis.Options{
@@ -96,10 +100,6 @@ func waitForShutdown(srv *http.Server) {
 
 	log.Println("Shutting down")
 	os.Exit(0)
-}
-
-func triggerQod(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("This should trigger the qod"))
 }
 
 func getQuoteFromAPI() (*model.QuoteResponse, error) {
