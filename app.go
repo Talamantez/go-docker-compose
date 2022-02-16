@@ -43,10 +43,6 @@ func quoteOfTheDayHandler(client *redis.Client) http.HandlerFunc {
 	}
 }
 
-func triggerQod(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("This should trigger the qod"))
-}
-
 func main() {
 	// Create Redis Client
 	client := redis.NewClient(&redis.Options{
@@ -65,7 +61,6 @@ func main() {
 
 	r.HandleFunc("/", indexHandler)
 	r.HandleFunc("/qod", quoteOfTheDayHandler(client))
-	r.HandleFunc("/triggerQod", triggerQod)
 
 	srv := &http.Server{
 		Handler:      r,
@@ -118,7 +113,6 @@ func getQuoteFromAPI() (*model.QuoteResponse, error) {
 	} else {
 		return nil, errors.New("Could not get quote from API")
 	}
-
 }
 
 func getEnv(key, defaultValue string) string {
